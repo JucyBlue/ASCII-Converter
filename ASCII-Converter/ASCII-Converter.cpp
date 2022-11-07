@@ -7,20 +7,20 @@ using namespace std;
 
 string ConvertTextToASCII(char str[]);
 void WriteFile(string);
-void ReadFile();
+string ReadFile();
 void MyMain();
 
 int main()
 {
 	
 	MyMain();
+	cout << "\n\n\n";
 	system("pause");
 }
 
 
 void MyMain() {
 	char str[1000];
-
 	int inputInt;
 	string inputStr;
 	cout << "What would you like to do?\n1:write text file || 2:read text file" << endl;
@@ -33,8 +33,8 @@ void MyMain() {
 		cin.getline(str, sizeof(str));
 		WriteFile(ConvertTextToASCII(str)); // Converts the text into ASCII then overwrites it into file
 	}
-	else cout << "invalid" << endl;
-	ReadFile(); //reads the file
+	else cout << "\nReading..." << endl;
+	cout << ReadFile() << endl; //reads the file
 
 	
 
@@ -42,6 +42,7 @@ void MyMain() {
 
 void WriteFile(string text){
 	fstream myFile;
+	//cout << text << endl;
 	myFile.open("ASCII.txt", ios::out); //overwrite text
 	if (myFile.is_open()) {
 		myFile << text;
@@ -49,34 +50,34 @@ void WriteFile(string text){
 	}
 }
 
-void ReadFile() {
+string ReadFile() {
 	fstream myFile;
 	myFile.open("ASCII.txt", ios::in);
 	if (myFile.is_open()) {
 		string line;
+		cout << "\nOriginal Text:";
 		while (getline(myFile, line)) {
-			cout << line << endl;
+			cout << line;
+			cout << " ";
 		}
 		myFile.clear();
 		myFile.seekg(0);
-		cout << "-----text-----" << endl;
-		while (getline(myFile, line)) {
-			cout << char(stoi(line)) << endl;
-		}
-		/*char ch = char(73);
-		cout << ch << endl;*/
-
 		
+		string text = "\n\nAfter Decode:";
+		while (getline(myFile, line)) {
+			 text += char(stoi(line));
+		}
 		myFile.close();
+		return text;
 	}
 }
 
  string ConvertTextToASCII(char str[]) {
-	 cout << str << "--word" << endl;
+	 //cout << str << "--word" << endl;
+	 //cout << str << "--word" << endl;
 	 string ASCII = "";
-	 for (int i = 0; i < sizeof(str); i++) {
+	 for (int i = 0; i < 1000; i++) {
 		 if (int(str[i]) == 0) {
-			 cout << "---NULL---" << endl;
 			 break;
 		 }
 		
