@@ -1,20 +1,86 @@
-// ASCII-Converter.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
+#include <fstream>
+#include <string>
+#include <cstdlib> 
+#include<stdio.h>
+using namespace std;
+
+string ConvertTextToASCII(char str[]);
+void WriteFile(string);
+void ReadFile();
+void MyMain();
 
 int main()
 {
-    std::cout << "Hello World!\n";
+	
+	MyMain();
+	system("pause");
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+void MyMain() {
+	char str[1000];
+
+	int inputInt;
+	string inputStr;
+	cout << "What would you like to do?\n1:write text file || 2:read text file" << endl;
+	cin >> inputInt;
+
+	if (inputInt == 1) {
+		cout << "What would you like to write?\nText:";
+		//cin.getline(str, sizeof(str));
+		cin.ignore();
+		cin.getline(str, sizeof(str));
+		WriteFile(ConvertTextToASCII(str)); // Converts the text into ASCII then overwrites it into file
+	}
+	else cout << "invalid" << endl;
+	ReadFile(); //reads the file
+
+	
+
+}
+
+void WriteFile(string text){
+	fstream myFile;
+	myFile.open("ASCII.txt", ios::out); //overwrite text
+	if (myFile.is_open()) {
+		myFile << text;
+		myFile.close();
+	}
+}
+
+void ReadFile() {
+	fstream myFile;
+	myFile.open("ASCII.txt", ios::in);
+	if (myFile.is_open()) {
+		string line;
+		while (getline(myFile, line)) {
+			cout << line << endl;
+		}
+		myFile.clear();
+		myFile.seekg(0);
+		cout << "-----text-----" << endl;
+		while (getline(myFile, line)) {
+			cout << char(stoi(line)) << endl;
+		}
+		/*char ch = char(73);
+		cout << ch << endl;*/
+
+		
+		myFile.close();
+	}
+}
+
+ string ConvertTextToASCII(char str[]) {
+	 cout << str << "--word" << endl;
+	 string ASCII = "";
+	 for (int i = 0; i < sizeof(str); i++) {
+		 if (int(str[i]) == 0) {
+			 cout << "---NULL---" << endl;
+			 break;
+		 }
+		
+		ASCII += to_string(int(str[i])) += "\n"; //converts char's to ASCII code
+	}
+	 return ASCII;
+}
